@@ -6,7 +6,7 @@ public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private int id;
+    private int id_usuario;
     private String nome;
     private String email;
     private String senha;
@@ -16,8 +16,8 @@ public class Usuario implements Serializable {
     }
 
 
-    public Usuario(int id, String nome, String email, String senha) {
-        this.id = id;
+    public Usuario(int id_usuario, String nome, String email, String senha) {
+        this.id_usuario = id_usuario;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -25,11 +25,11 @@ public class Usuario implements Serializable {
 
 
     public int getId() {
-        return id;
+        return id_usuario;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     public String getNome() {
@@ -59,7 +59,7 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "Usuario{" +
-                "id=" + id +
+                "id=" + id_usuario +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
                 '}';
