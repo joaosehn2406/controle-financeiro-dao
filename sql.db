@@ -1,0 +1,33 @@
+CREATE DATABASE cf;
+
+USE cf;
+
+CREATE TABLE usuario (
+	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    email VARCHAR(100),
+    senha VARCHAR(25));
+
+CREATE TABLE categoria (
+	id_categoria INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(100),
+	id_usuario INT NOT NULL,
+    CONSTRAINT fk_categoria_usuario
+    FOREIGN KEY (id_usuario)
+    REFERENCES usuario (id_usuario));
+
+CREATE TABLE movimentacao (
+	id_transacao INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(150),
+    data_mov DATE NOT NULL,
+    valor NUMERIC(12,3),
+    tipo_mov ENUM('RECEITA', 'DESPESA') NOT NULL,
+    id_categoria INT NOT NULL,
+    id_usuario INT NOT NULL,
+    CONSTRAINT fk_movimentacao_categoria
+    FOREIGN KEY (id_categoria)
+    REFERENCES categoria (id_categoria),
+    CONSTRAINT fk_movimentacao_usuario
+    FOREIGN KEY (id_usuario)
+    REFERENCES usuario (id_usuario));
+
