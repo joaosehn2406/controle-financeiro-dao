@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Usuario implements Serializable {
 
@@ -54,6 +55,18 @@ public class Usuario implements Serializable {
 
     public void setSenhaHash(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id_usuario == usuario.id_usuario;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id_usuario);
     }
 
     @Override
