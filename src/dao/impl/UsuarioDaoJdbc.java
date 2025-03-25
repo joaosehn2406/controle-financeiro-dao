@@ -86,7 +86,9 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
 
             int row = ps.executeUpdate();
 
-            System.out.println("Update successfully done!");
+            if (row > 0) {
+                System.out.println("Update successfully done!");    
+            }
         }
         catch(SQLException e) {
             throw new DaoException(e.getMessage());
@@ -98,16 +100,85 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
 
     @Override
     public void deleteByUsuarioId(Integer id) {
+        PreparedStatement ps = null;
 
+        try {
+            ps = conn.prepareStatement(
+                "DELETE FROM usuario " +
+                "WHERE id_usuario  = ?");
+
+            if (id > 0 && id != null) {
+                ps.setInt(1, id);
+            }
+
+            int rows = ps.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Delete successfully done!");
+            }
+            
+        }
+        catch(SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+        System.out.println("There as nothing to delete.");
     }
 
     @Override
     public Usuario findByUsuarioId(Integer id) {
-        return null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = conn.prepareStatement(
+                "SELECT * FROM " +
+                "usuario WHERE id_usuario = ?");
+
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Usuario usu = new Usuario();
+                usu.setId(rs.getInt("id_usuario"));
+                usu.setEmail("email");
+                usu.setNome("nome");
+                usu.setSenhaHash("senha");
+                return usu;
+            }
+            return null;
+        }
+        catch(SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
+
     }
 
     @Override
     public List<Usuario> findAll() {
-        return List.of();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = conn.prepareStatement(
+                "SELECT * FROM usuario order by id_usuario ASC");
+            
+            rs = ps.executeQuery();
+
+            List<Usuario> list = new ArrayList<>();
+
+            while (rs.next()) {
+                Usuario usu = new Usuario();
+                usu.setId(rs.getInt("id_usuario"));
+                usu.setEmail("email");
+                usu.setNome("nome");
+                usu.setSenhaHash("senha");
+                list.add(usu);
+            }
+            return null;
+        }
+        catch(SQLException e) {
+            throw new DaoException(e.getMessage());
+        }
     }
 }
