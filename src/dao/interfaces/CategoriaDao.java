@@ -10,7 +10,7 @@ public interface CategoriaDao {
     void insert(Categoria cat);
     void update(Categoria cat);
     void deleteById(Integer id);
-    Categoria findByCategoriaId(Integer id);
     List<Categoria> findAll();
+    Categoria findByCategoriaId(Integer id);
     List<Categoria> findByUsuario(Usuario u); 
 } 

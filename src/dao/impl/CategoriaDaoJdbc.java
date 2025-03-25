@@ -44,7 +44,7 @@ public class CategoriaDaoJdbc implements CategoriaDao {
 
             if (rows > 0) {
                 rs = ps.getGeneratedKeys();
-                while (rs.next()) {
+                if (rs.next()) {
                     int id = rs.getInt(1);
                     cat.setId(id);
                 }
@@ -83,7 +83,7 @@ public class CategoriaDaoJdbc implements CategoriaDao {
             ps = conn.prepareStatement(sb.toString());
 
             for (int i = 0; i < list.size(); i++) {
-                ps.setObject(i + 1, list.get(0));
+                ps.setObject(i + 1, list.get(i));
             }
 
             int rows = ps.executeUpdate();
