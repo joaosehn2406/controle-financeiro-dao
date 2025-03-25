@@ -14,4 +14,5 @@ public interface MovimentacaoDao {
     List<Movimentacao> findByUsuario(Usuario u); 
     List<Movimentacao> findByCategoria(Categoria cat);
     List<Movimentacao> findAll();
+    boolean existeMovimentacao(Movimentacao movimentacao);
 }

@@ -318,6 +318,34 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
         }
     }
 
+    public boolean existeMovimentacao(Movimentacao movimentacao) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+
+            String sql = "SELECT 1 FROM movimentacao WHERE descricao = ? AND data_mov = ? AND id_usuario = ?";
+            ps = conn.prepareStatement(sql);
+
+
+            ps.setString(1, movimentacao.getDescricao());
+            ps.setDate(2, java.sql.Date.valueOf(movimentacao.getData())); 
+            ps.setInt(3, movimentacao.getUsuario().getId()); 
+
+
+            rs = ps.executeQuery();
+
+            return rs.next(); 
+        } catch (SQLException e) {
+            throw new DaoException("Erro ao verificar movimentação: " + e.getMessage());
+        } finally {
+            DB.closeStatement(ps);
+            DB.closeResultSet(rs);
+        }
+    }
+
+
+
     private Usuario instantiateUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setId(rs.getInt("id_usuario"));

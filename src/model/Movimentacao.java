@@ -85,16 +85,60 @@ public class Movimentacao implements Serializable {
         this.usuario = usuario;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Movimentacao that = (Movimentacao) o;
-        return id_transacao == that.id_transacao;
-    }
+    
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id_transacao);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id_transacao;
+        result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        long temp;
+        temp = Double.doubleToLongBits(valor);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((tipoMovimentacao == null) ? 0 : tipoMovimentacao.hashCode());
+        result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
+        result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Movimentacao other = (Movimentacao) obj;
+        if (id_transacao != other.id_transacao)
+            return false;
+        if (descricao == null) {
+            if (other.descricao != null)
+                return false;
+        } else if (!descricao.equals(other.descricao))
+            return false;
+        if (data == null) {
+            if (other.data != null)
+                return false;
+        } else if (!data.equals(other.data))
+            return false;
+        if (Double.doubleToLongBits(valor) != Double.doubleToLongBits(other.valor))
+            return false;
+        if (tipoMovimentacao != other.tipoMovimentacao)
+            return false;
+        if (categoria == null) {
+            if (other.categoria != null)
+                return false;
+        } else if (!categoria.equals(other.categoria))
+            return false;
+        if (usuario == null) {
+            if (other.usuario != null)
+                return false;
+        } else if (!usuario.equals(other.usuario))
+            return false;
+        return true;
     }
 
     @Override
