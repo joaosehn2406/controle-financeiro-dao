@@ -45,7 +45,6 @@ public class MovimentacaoService {
         }
     }
 
-
     public void atualizarMovimentacao(Movimentacao movimentacao) {
         if (movimentacao.getId_transacao() <= 0) {
             throw new MovimentacaoException("Movimentação inexistente.");

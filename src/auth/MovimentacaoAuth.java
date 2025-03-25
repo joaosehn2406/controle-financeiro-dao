@@ -24,8 +24,6 @@ public class MovimentacaoAuth {
         this.movimentacaoDao = movimentacaoDao;
     }
 
-
-
     public MovimentacaoAuth(MovimentacaoDao movimentacaoDao, CategoriaDao categoriaDao, UsuarioDao usuarioDao) {
         this.movimentacaoDao = movimentacaoDao;
         this.categoriaDao = categoriaDao;
@@ -61,7 +59,6 @@ public class MovimentacaoAuth {
             throw new MovimentacaoException("A data da movimentação não pode ser no futuro.");
         }
     }
-
 
     public boolean verificarDuplicidade(Movimentacao movimentacao) {
         return movimentacaoDao.existeMovimentacao(movimentacao);
