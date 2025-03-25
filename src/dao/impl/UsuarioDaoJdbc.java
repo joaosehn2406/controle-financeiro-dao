@@ -1,6 +1,6 @@
 package dao.impl;
 
-import dao.UsuarioDao;
+import dao.interfaces.UsuarioDao;
 import db.DB;
 import exceptions.DaoException;
 import model.Usuario;

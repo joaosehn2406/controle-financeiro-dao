@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import dao.CategoriaDao;
+import dao.interfaces.CategoriaDao;
 import db.DB;
 import exceptions.DaoException;
 import model.Categoria;
