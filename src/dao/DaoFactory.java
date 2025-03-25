@@ -2,11 +2,11 @@ package dao;
 
 
 import dao.impl.UsuarioDaoJdbc;
-import db.DbConnection;
+import db.DB;
 
 public class DaoFactory {
 
     public UsuarioDao createUsuarioDao(){
-        return new UsuarioDaoJdbc(DbConnection.getConnection());
+        return new UsuarioDaoJdbc(DB.getConnection());
     }
 }
