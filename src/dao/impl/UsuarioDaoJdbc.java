@@ -13,6 +13,10 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
 
     private Connection conn;
 
+    public UsuarioDaoJdbc() {
+    }
+
+
     public UsuarioDaoJdbc(Connection conn) {
         this.conn = conn;
     }

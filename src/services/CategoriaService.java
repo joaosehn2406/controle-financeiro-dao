@@ -12,6 +12,13 @@ public class CategoriaService {
 
     public CategoriaService() {}
 
+    
+
+    public CategoriaService(CategoriaDao categoriaDao) {
+        this.categoriaDao = categoriaDao;
+    }
+
+
     public CategoriaService(CategoriaDao categoriaDao, CategoriaAuth categoriaAuth) {
         this.categoriaDao = categoriaDao;
         this.categoriaAuth = categoriaAuth;

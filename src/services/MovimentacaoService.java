@@ -14,6 +14,15 @@ public class MovimentacaoService {
     public MovimentacaoService() {
     }
 
+    
+
+
+    public MovimentacaoService(MovimentacaoDao movimentacaoDao) {
+        this.movimentacaoDao = movimentacaoDao;
+    }
+
+
+
 
     public MovimentacaoService(MovimentacaoDao movimentacaoDao, MovimentacaoAuth movimentacaoAuth) {
         this.movimentacaoDao = movimentacaoDao;

@@ -20,6 +20,11 @@ public class CategoriaDaoJdbc implements CategoriaDao {
 
     private Connection conn;
 
+    
+
+    public CategoriaDaoJdbc() {
+    }
+
     public CategoriaDaoJdbc(Connection conn) {
         this.conn = conn;
     }
@@ -51,9 +56,11 @@ public class CategoriaDaoJdbc implements CategoriaDao {
             } else {
                 throw new DaoException("Unexpected error! No rows affected");
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             throw new DaoException(e.getMessage());
-        } finally {
+        } 
+        finally {
             DB.closeStatement(ps);
         }
     }
@@ -91,7 +98,8 @@ public class CategoriaDaoJdbc implements CategoriaDao {
             if (rows > 0) {
                 throw new DaoException("Sucess! Update done.");
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
     }
@@ -115,7 +123,8 @@ public class CategoriaDaoJdbc implements CategoriaDao {
                 System.out.println("Delete successfully done!");
             }
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
         System.out.println("There as nothing to delete.");
@@ -143,9 +152,11 @@ public class CategoriaDaoJdbc implements CategoriaDao {
             }
 
             return null;
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             throw new DaoException(e.getMessage());
-        } finally {
+        } 
+        finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }

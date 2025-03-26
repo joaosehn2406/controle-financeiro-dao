@@ -21,13 +21,13 @@ public class UsuarioService {
         this.usuarioAuth = usuarioAuth;
     }
 
-
+    public UsuarioService(UsuarioDao usuarioDao) {
+        this.usuarioDao = usuarioDao;
+        this.usuarioAuth = new UsuarioAuth(usuarioDao); 
+    }
 
     public void adicionarUsuario(Usuario usuario){
 
-        if (!usuarioAuth.validarUsuarioExistente(usuario.getId())) {
-            throw new UsuarioException("Usuário já existente");
-        }
 
         usuarioDao.insert(usuario);
 

@@ -9,6 +9,7 @@ import model.Usuario;
 import services.CategoriaService;
 import services.MovimentacaoService;
 import services.UsuarioService;
+import dao.interfaces.DaoFactory; 
 import exceptions.CategoriaException;
 import exceptions.MovimentacaoException;
 import exceptions.UsuarioException;
@@ -22,13 +23,19 @@ public class Program {
 
     public static void main(String[] args) {
 
-        categoriaService = new CategoriaService();
-        movimentacaoService = new MovimentacaoService();
-        usuarioService = new UsuarioService();
+        
+        DaoFactory daoFactory = new DaoFactory();
 
-        while (true) {
+        
+        categoriaService = new CategoriaService(daoFactory.createCategoriaDao());
+        movimentacaoService = new MovimentacaoService(daoFactory.createMovimentacaoDao());
+        usuarioService = new UsuarioService(daoFactory.createUsuarioDao());
+
+        int opcao = -1; 
+
+        while (opcao != 0) {
             mostrarMenu();
-            int opcao = scanner.nextInt();
+            opcao = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcao) {
@@ -96,6 +103,7 @@ public class Program {
     }
 
 
+
     private static void adicionarCategoria() {
         try {
             System.out.print("Informe o nome da categoria: ");
@@ -104,10 +112,17 @@ public class Program {
             int idUsuario = scanner.nextInt();
             scanner.nextLine(); 
 
-            Categoria categoria = new Categoria(new Usuario(idUsuario, "Usuário Exemplo"), nome, 0);
+
+            Usuario usuario = usuarioService.findByUsuarioId(idUsuario); 
+
+            Categoria categoria = new Categoria(usuario, nome, 0);
             categoriaService.adicionarCategoria(categoria);
             System.out.println("Categoria adicionada com sucesso!");
-        } catch (CategoriaException e) {
+        } 
+        catch (CategoriaException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } 
+        catch (UsuarioException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -121,10 +136,13 @@ public class Program {
             System.out.print("Informe o novo nome da categoria: ");
             String nome = scanner.nextLine();
 
-            Categoria categoria = new Categoria(new Usuario(1, "Usuário Exemplo"), nome, idCategoria);
+
+            Usuario usuario = new Usuario(1, "Usuário Exemplo"); 
+            Categoria categoria = new Categoria(usuario, nome, idCategoria);
             categoriaService.atualizarCategoria(categoria);
             System.out.println("Categoria atualizada com sucesso!");
-        } catch (CategoriaException e) {
+        } 
+        catch (CategoriaException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -137,7 +155,8 @@ public class Program {
         try {
             Categoria categoria = categoriaService.buscarCategoriaPorId(idCategoria);
             System.out.println("Categoria encontrada: " + categoria);
-        } catch (CategoriaException e) {
+        } 
+        catch (CategoriaException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -150,11 +169,11 @@ public class Program {
         try {
             categoriaService.removerCategoria(idCategoria);
             System.out.println("Categoria removida com sucesso!");
-        } catch (CategoriaException e) {
+        } 
+        catch (CategoriaException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
-
 
     private static void adicionarMovimentacao() {
         try {
@@ -169,63 +188,71 @@ public class Program {
             int idUsuario = scanner.nextInt();
             scanner.nextLine();
     
-            Categoria categoria = new Categoria(new Usuario(idUsuario, "Usuário Exemplo"), "Categoria Exemplo", idCategoria);
+
+            Usuario usuario = usuarioService.findByUsuarioId(idUsuario);
+            Categoria categoria = categoriaService.buscarCategoriaPorId(idCategoria);
     
-            Movimentacao movimentacao = new Movimentacao(valor, categoria, new Usuario(idUsuario, "Usuário Exemplo"));
+            Movimentacao movimentacao = new Movimentacao(valor, categoria, usuario);
     
             movimentacaoService.adicionarMovimentacao(movimentacao);
-    
             System.out.println("Movimentação adicionada com sucesso!");
-        } catch (MovimentacaoException e) {
+        } 
+        catch (MovimentacaoException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } 
+        catch (UsuarioException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } 
+        catch (CategoriaException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
     
 
     private static void atualizarMovimentacao() {
-    try {
-        System.out.print("Informe o ID da movimentação a ser atualizada: ");
-        int idMovimentacao = scanner.nextInt();
-        scanner.nextLine();
+        try {
+            System.out.print("Informe o ID da movimentação a ser atualizada: ");
+            int idMovimentacao = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.print("Informe o novo valor da movimentação: ");
-        double valor = scanner.nextDouble();
+            System.out.print("Informe o novo valor da movimentação: ");
+            double valor = scanner.nextDouble();
 
-        System.out.print("Informe o novo tipo de movimentação (RECEITA/DESPESA): ");
-        String tipoMovStr = scanner.nextLine().toUpperCase(); 
-        TipoMovimentacao tipoMovimentacao = TipoMovimentacao.valueOf(tipoMovStr);
+            System.out.print("Informe o novo tipo de movimentação (RECEITA/DESPESA): ");
+            String tipoMovStr = scanner.nextLine().toUpperCase(); 
+            TipoMovimentacao tipoMovimentacao = TipoMovimentacao.valueOf(tipoMovStr);
 
-        System.out.print("Informe o ID da categoria: ");
-        int idCategoria = scanner.nextInt();
+            System.out.print("Informe o ID da categoria: ");
+            int idCategoria = scanner.nextInt();
 
-        System.out.print("Informe o ID do usuário: ");
-        int idUsuario = scanner.nextInt();
-        scanner.nextLine();
-
-
-        Categoria categoria = new Categoria(new Usuario(idUsuario, "Usuário Exemplo"), "Categoria Exemplo", idCategoria);
-
-        LocalDate data = LocalDate.now(); 
-        String descricao = "Movimentação Atualizada"; 
-
-        Movimentacao movimentacao = new Movimentacao(
-            idMovimentacao,
-            descricao,
-            data, 
-            valor,
-            tipoMovimentacao, 
-            categoria,
-            new Usuario(idUsuario, "Usuário Exemplo")
-        );
+            System.out.print("Informe o ID do usuário: ");
+            int idUsuario = scanner.nextInt();
+            scanner.nextLine();
 
 
-        movimentacaoService.atualizarMovimentacao(movimentacao);
-        System.out.println("Movimentação atualizada com sucesso!");
-    } catch (MovimentacaoException e) {
-        System.out.println("Erro: " + e.getMessage());
+            Categoria categoria = new Categoria(new Usuario(idUsuario, "Usuário Exemplo"), "Categoria Exemplo", idCategoria);
+
+            LocalDate data = LocalDate.now(); 
+            String descricao = "Movimentação Atualizada"; 
+
+            Movimentacao movimentacao = new Movimentacao(
+                idMovimentacao,
+                descricao,
+                data, 
+                valor,
+                tipoMovimentacao, 
+                categoria,
+                new Usuario(idUsuario, "Usuário Exemplo")
+            );
+
+
+            movimentacaoService.atualizarMovimentacao(movimentacao);
+            System.out.println("Movimentação atualizada com sucesso!");
+        } 
+        catch (MovimentacaoException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
-}
-
 
     private static void buscarMovimentacao() {
         System.out.print("Informe o ID da movimentação a ser buscada: ");
@@ -235,7 +262,8 @@ public class Program {
         try {
             Movimentacao movimentacao = movimentacaoService.buscarMovimentacaoPorId(idMovimentacao);
             System.out.println("Movimentação encontrada: " + movimentacao);
-        } catch (MovimentacaoException e) {
+        } 
+        catch (MovimentacaoException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -248,7 +276,8 @@ public class Program {
         try {
             movimentacaoService.removerMovimentacao(idMovimentacao);
             System.out.println("Movimentação removida com sucesso!");
-        } catch (MovimentacaoException e) {
+        } 
+        catch (MovimentacaoException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -267,7 +296,8 @@ public class Program {
             Usuario usuario = new Usuario(nome, email, senha);
             usuarioService.adicionarUsuario(usuario);
             System.out.println("Usuário adicionado com sucesso!");
-        } catch (UsuarioException e) {
+        } 
+        catch (UsuarioException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -290,7 +320,8 @@ public class Program {
             Usuario usuario = new Usuario(idUsuario, nome, email, senha);
             usuarioService.atualizarUsuario(usuario);
             System.out.println("Usuário atualizado com sucesso!");
-        } catch (UsuarioException e) {
+        } 
+        catch (UsuarioException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -303,7 +334,8 @@ public class Program {
         try {
             Usuario usuario = usuarioService.findByUsuarioId(idUsuario);
             System.out.println("Usuário encontrado: " + usuario);
-        } catch (UsuarioException e) {
+        }
+        catch (UsuarioException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }
@@ -316,7 +348,8 @@ public class Program {
         try {
             usuarioService.removerUsuario(new Usuario(idUsuario));
             System.out.println("Usuário removido com sucesso!");
-        } catch (UsuarioException e) {
+        } 
+        catch (UsuarioException e) {
             System.out.println("Erro: " + e.getMessage());
         }
     }

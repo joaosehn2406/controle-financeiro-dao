@@ -23,6 +23,11 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
 
     private Connection conn;
 
+    
+
+    public MovimentacaoDaoJdbc() {
+    }
+
     public MovimentacaoDaoJdbc(Connection conn) {
         this.conn = conn;
     }
