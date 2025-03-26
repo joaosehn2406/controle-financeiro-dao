@@ -31,14 +31,22 @@ public class MovimentacaoAuth {
         
     }
 
+    public boolean verificarExistenciaMovimentacao(Integer id) {
+
+        Movimentacao movimentacao = movimentacaoDao.findByMovimentacaoId(id);
+        return movimentacao != null;
+    }
+
     public boolean verificarExistenciaMovimentacaoPorDescricaoData(Movimentacao movimentacao) {
         return movimentacaoDao.existeMovimentacao(movimentacao);
     }
 
-    public void validarValorMovimentacao(Movimentacao movimentacao) {
+    public boolean validarValorMovimentacao(Movimentacao movimentacao) {
         if (movimentacao.getValor() <= 0) {
-            throw new MovimentacaoException("O valor da movimentação deve ser maior que zero.");
+            System.out.println("O valor da movimentação deve ser maior que zero.");
+            return false;
         }
+        return true;
     }
 
 
@@ -62,12 +70,6 @@ public class MovimentacaoAuth {
 
     public boolean verificarDuplicidade(Movimentacao movimentacao) {
         return movimentacaoDao.existeMovimentacao(movimentacao);
-    }
-
-    public boolean verificarExistenciaMovimentacao(Integer id) {
-
-        Movimentacao movimentacao = movimentacaoDao.findByMovimentacaoId(id);
-        return movimentacao != null;
     }
 
 

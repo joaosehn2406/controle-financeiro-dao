@@ -155,6 +155,28 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
     }
 
     @Override
+    public Usuario findByEmail(String email) {
+        String sql = "SELECT * FROM usuario WHERE email = ?";
+        try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id_usuario"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setSenhaHash(rs.getString("senha"));
+                return usuario;
+            }
+            return null;
+        } 
+        catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar usuário por email", e);
+        }
+    }
+
+    @Override
     public List<Usuario> findAll() {
         PreparedStatement ps = null;
         ResultSet rs = null;
