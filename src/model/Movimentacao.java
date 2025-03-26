@@ -18,6 +18,16 @@ public class Movimentacao implements Serializable {
 
     public Movimentacao(){};
 
+    
+
+    public Movimentacao(double valor, Categoria categoria, Usuario usuario) {
+        this.valor = valor;
+        this.categoria = categoria;
+        this.usuario = usuario;
+    }
+
+
+
     public Movimentacao(int id_transacao, String descricao, LocalDate data, double valor, TipoMovimentacao tipoMovimentacao, Categoria categoria, Usuario usuario) {
         this.id_transacao = id_transacao;
         this.descricao = descricao;

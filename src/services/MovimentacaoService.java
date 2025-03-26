@@ -10,6 +10,10 @@ public class MovimentacaoService {
     private MovimentacaoDao movimentacaoDao;
     private MovimentacaoAuth movimentacaoAuth;
 
+    
+    public MovimentacaoService() {
+    }
+
 
     public MovimentacaoService(MovimentacaoDao movimentacaoDao, MovimentacaoAuth movimentacaoAuth) {
         this.movimentacaoDao = movimentacaoDao;
