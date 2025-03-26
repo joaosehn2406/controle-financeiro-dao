@@ -1,47 +1,30 @@
 package auth;
 
 import model.Categoria;
-import model.Usuario;
-import dao.interfaces.CategoriaDao;
+import exceptions.CategoriaException;
 
 public class CategoriaAuth {
 
-    private CategoriaDao categoriaDao;
-
-    public CategoriaAuth(CategoriaDao categoriaDao) {
-        this.categoriaDao = categoriaDao;
-    }
-
+    
     public void validateCategoria(Categoria categoria) {
         if (categoria.getNome() == null || categoria.getNome().trim().isEmpty()) {
-            throw new IllegalArgumentException("O nome da categoria não pode ser vazio.");
+            throw new CategoriaException("Nome da categoria não pode ser vazio.");
         }
 
         if (categoria.getUsuario() == null || categoria.getUsuario().getId() <= 0) {
-            throw new IllegalArgumentException("A categoria deve estar associada a um usuário válido.");
+            throw new CategoriaException("A categoria deve estar associada a um usuário válido.");
         }
 
         if (categoria.getId() <= 0) {
-            throw new IllegalArgumentException("ID da categoria inválido.");
+            throw new CategoriaException("ID da categoria inválido.");
         }
 
-        if (categoriaDao.findByCategoriaId(categoria.getId()) != null) {
-            throw new IllegalArgumentException("Já existe uma categoria com este ID.");
+
+        if (!isCategoriaNameLengthValid(categoria.getNome())) {
+            throw new CategoriaException("O nome da categoria deve ter entre 3 e 50 caracteres.");
         }
     }
 
-
-    public boolean canDeleteCategoria(Usuario usuario, Categoria categoria) {
-        return categoria.getUsuario().getId() == usuario.getId();
-    }
-
-
-    public void validateCategoriaNameUniqueness(Categoria categoria) {
-        Categoria existingCategoria = categoriaDao.findByCategoriaId(categoria.getId());
-        if (existingCategoria != null) {
-            throw new IllegalArgumentException("Já existe uma categoria com o mesmo ID.");
-        }
-    }
 
     public boolean isCategoriaNameValid(String nome) {
         return nome != null && !nome.trim().isEmpty();

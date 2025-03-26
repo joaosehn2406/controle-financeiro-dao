@@ -19,41 +19,37 @@ public class CategoriaService {
 
 
     public void adicionarCategoria(Categoria categoria) {
-        categoriaAuth.validarCategoria(categoria);
+        categoriaAuth.validateCategoria(categoria);  
 
 
-        if (categoriaAuth.verificarCategoriaUnica(categoria)) {
+        if (categoriaDao.findByCategoriaId(categoria.getId()) != null) {
             throw new CategoriaException("Categoria já existe.");
         }
-
 
         categoriaDao.insert(categoria);
     }
 
-
     public void removerCategoria(Integer id) {
 
-        if (!categoriaAuth.verificarExistenciaCategoria(id)) {
+        Categoria categoria = categoriaDao.findByCategoriaId(id);
+        if (categoria == null) {
             throw new CategoriaException("Categoria não encontrada.");
         }
 
-        Categoria categoria = categoriaDao.findByCategoriaId(id);
-        categoriaAuth.validarCategoriaParaDelecao(categoria);
 
         categoriaDao.deleteById(id);
     }
 
 
     public void atualizarCategoria(Categoria categoria) {
-
         if (categoria.getId() <= 0) {
             throw new CategoriaException("ID da categoria inválido para atualização.");
         }
 
-        categoriaAuth.validarCategoriaParaAtualizacao(categoria);
+        categoriaAuth.validateCategoria(categoria);
 
-        if (categoriaAuth.verificarCategoriaUnica(categoria)) {
-            throw new CategoriaException("Categoria já existe.");
+        if (categoriaDao.findByCategoriaId(categoria.getId()) == null) {
+            throw new CategoriaException("Categoria não encontrada.");
         }
 
         categoriaDao.update(categoria);
@@ -61,11 +57,9 @@ public class CategoriaService {
 
     public Categoria buscarCategoriaPorId(int id) {
         Categoria categoria = categoriaDao.findByCategoriaId(id);
-
         if (categoria == null) {
             throw new CategoriaException("Categoria não encontrada.");
         }
-
         return categoria;
     }
 }
