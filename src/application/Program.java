@@ -2,6 +2,7 @@ package application;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+
 import model.Categoria;
 import model.Movimentacao;
 import model.TipoMovimentacao;
@@ -9,7 +10,7 @@ import model.Usuario;
 import services.CategoriaService;
 import services.MovimentacaoService;
 import services.UsuarioService;
-import dao.interfaces.DaoFactory; 
+import dao.interfaces.DaoFactory;
 import exceptions.CategoriaException;
 import exceptions.MovimentacaoException;
 import exceptions.UsuarioException;
@@ -23,15 +24,13 @@ public class Program {
 
     public static void main(String[] args) {
 
-        
         DaoFactory daoFactory = new DaoFactory();
 
-        
         categoriaService = new CategoriaService(daoFactory.createCategoriaDao());
         movimentacaoService = new MovimentacaoService(daoFactory.createMovimentacaoDao());
         usuarioService = new UsuarioService(daoFactory.createUsuarioDao());
 
-        int opcao = -1; 
+        int opcao = -1;
 
         while (opcao != 0) {
             mostrarMenu();
@@ -77,7 +76,7 @@ public class Program {
                     break;
                 case 0:
                     System.out.println("Saindo...");
-                    return; 
+                    return;
                 default:
                     System.out.println("Opção inválida, tente novamente.");
             }
@@ -102,8 +101,6 @@ public class Program {
         System.out.print("Escolha uma opção: ");
     }
 
-
-
     private static void adicionarCategoria() {
         try {
             System.out.print("Informe o nome da categoria: ");
@@ -112,8 +109,7 @@ public class Program {
             int idUsuario = scanner.nextInt();
             scanner.nextLine(); 
 
-
-            Usuario usuario = usuarioService.findByUsuarioId(idUsuario); 
+            Usuario usuario = usuarioService.findByUsuarioId(idUsuario);
 
             Categoria categoria = new Categoria(usuario, nome, 0);
             categoriaService.adicionarCategoria(categoria);
@@ -137,7 +133,8 @@ public class Program {
             String nome = scanner.nextLine();
 
 
-            Usuario usuario = new Usuario(1, "Usuário Exemplo"); 
+            Usuario usuario = new Usuario(1, "Usuário Exemplo");
+
             Categoria categoria = new Categoria(usuario, nome, idCategoria);
             categoriaService.atualizarCategoria(categoria);
             System.out.println("Categoria atualizada com sucesso!");
@@ -193,7 +190,6 @@ public class Program {
             Categoria categoria = categoriaService.buscarCategoriaPorId(idCategoria);
     
             Movimentacao movimentacao = new Movimentacao(valor, categoria, usuario);
-    
             movimentacaoService.adicionarMovimentacao(movimentacao);
             System.out.println("Movimentação adicionada com sucesso!");
         } 
@@ -346,7 +342,7 @@ public class Program {
         scanner.nextLine(); 
 
         try {
-            usuarioService.removerUsuario(new Usuario(idUsuario));
+            usuarioService.removerUsuario(idUsuario);
             System.out.println("Usuário removido com sucesso!");
         } 
         catch (UsuarioException e) {

@@ -22,10 +22,7 @@ public class Usuario implements Serializable {
     public Usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
-
-
-
-
+    
     public Usuario(String nome, String email, String senha) {
         this.nome = nome;
         this.email = email;

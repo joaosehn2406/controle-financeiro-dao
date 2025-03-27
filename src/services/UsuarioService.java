@@ -2,7 +2,6 @@ package services;
 
 import java.util.List;
 
-import auth.UsuarioAuth;
 import dao.interfaces.UsuarioDao;
 import exceptions.UsuarioException;
 import model.Usuario;
@@ -11,19 +10,18 @@ import model.Usuario;
 public class UsuarioService {
     
     private UsuarioDao usuarioDao;
-    private UsuarioAuth usuarioAuth;
+    private Usuario usuario;
 
     public UsuarioService() {
     }
 
-    public UsuarioService(UsuarioDao usuarioDao, UsuarioAuth usuarioAuth) {
-        this.usuarioDao = usuarioDao;
-        this.usuarioAuth = usuarioAuth;
+    public UsuarioService(Usuario usuario) {
+        this.usuario = usuario;
     }
+
 
     public UsuarioService(UsuarioDao usuarioDao) {
         this.usuarioDao = usuarioDao;
-        this.usuarioAuth = new UsuarioAuth(usuarioDao); 
     }
 
     public void adicionarUsuario(Usuario usuario){
@@ -33,28 +31,15 @@ public class UsuarioService {
 
     }
 
-    public void removerUsuario(Usuario usuario) {
+    public void removerUsuario(Integer id) {
 
-        if (usuarioAuth.validarUsuarioExistente(usuario.getId())) {
-            usuarioDao.deleteByUsuarioId(usuario.getId());
-        }
-        else {
-            throw new UsuarioException("Não há esse usuário");
-        }
-
+   
+        usuarioDao.deleteByUsuarioId(id);
     }
 
     public void atualizarUsuario(Usuario usuario) {
         if (usuario.getId() <= 0) {
             throw new UsuarioException("ID de usuário inválido");
-        }
-
-        if (!usuarioAuth.verificarEmailExistente(usuario.getEmail())) {
-            throw new UsuarioException("Email inválido");
-        }
-
-        if (!usuarioAuth.validarNomeUsuario(usuario.getNome())) {
-            throw new UsuarioException("Nome usuário inválido.");
         }
 
         usuarioDao.update(usuario);
