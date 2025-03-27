@@ -4,6 +4,7 @@ import dao.interfaces.UsuarioDao;
 import db.DB;
 import exceptions.DaoException;
 import model.Usuario;
+import validation.UsuarioRules;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -62,17 +63,17 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
         StringBuilder sql = new StringBuilder("UPDATE usuario SET ");
         List<Object> valores = new ArrayList<>();
 
-        if (u.getNome() != null && !u.getNome().isBlank()) {
+        if (UsuarioRules.validarNomeUsuario(u)) {
             sql.append("nome = ?, ");
             valores.add(u.getNome());
         }
 
-        if (u.getEmail() != null && !u.getEmail().isBlank()) {
+        if (UsuarioRules.validarEmailUsuario(u)) {
             sql.append("email = ?, ");
             valores.add(u.getEmail());
         }
 
-        if (u.getSenha() != null && !u.getSenha().isBlank()) {
+        if (UsuarioRules.validarSenhaUsuario(u)) {
             sql.append("senha = ?, ");
             valores.add(u.getSenha());
         }
