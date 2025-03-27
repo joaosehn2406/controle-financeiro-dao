@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.interfaces.MovimentacaoDao;
 import exceptions.MovimentacaoException;
+import model.Categoria;
 import model.Movimentacao;
 import model.Usuario;
 
@@ -57,4 +58,24 @@ public class MovimentacaoService {
         }
         return mov;
     }
+
+    public List<Movimentacao> buscarMovimentacaoPorCategoria(Categoria c) {
+        List<Movimentacao> mov = movimentacaoDao.findByCategoria(c);
+        if (c == null) {
+            throw new MovimentacaoException("Não há movimentação com essa categoria!");
+        }
+        return mov;
+        
+    }
+
+    public List<Movimentacao> buscarMovimentaoAll(){
+        List<Movimentacao> mov = movimentacaoDao.findAll();
+        if (mov == null) {
+            throw new MovimentacaoException("Não há movimentações!");
+        }
+
+        return mov;
+    }
+
+
 }

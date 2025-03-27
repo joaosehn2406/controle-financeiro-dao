@@ -62,18 +62,24 @@ public class Program {
                     buscarMovimentacao();
                     break;
                 case 8:
-                    removerMovimentacao();
+                    buscarMovimentacaoPorUsuario();
                     break;
                 case 9:
-                    adicionarUsuario();
+                    buscarMovimentacaoPorCategoria();
                     break;
                 case 10:
-                    atualizarUsuario();
+                    removerMovimentacao();
                     break;
                 case 11:
-                    buscarUsuario();
+                    adicionarUsuario();
                     break;
                 case 12:
+                    atualizarUsuario();;
+                    break;
+                case 13:
+                    buscarUsuario();
+                    break;
+                case 14:
                     removerUsuario();
                     break;
                 case 0:
@@ -118,15 +124,19 @@ public class Program {
             Thread.sleep(300);
             System.out.println("7. Buscar Movimentação");
             Thread.sleep(300);
-            System.out.println("8. Remover Movimentação");
+            System.out.println("8. Buscar Movimentação por usuário");
             Thread.sleep(300);
-            System.out.println("9. Adicionar Usuário");
+            System.out.println("9. Buscar Movimentação por categoria");
             Thread.sleep(300);
-            System.out.println("10. Atualizar Usuário");
+            System.out.println("10. Remover Movimentação");
             Thread.sleep(300);
-            System.out.println("11. Buscar Usuário");
+            System.out.println("11. Adicionar Usuário");
             Thread.sleep(300);
-            System.out.println("12. Remover Usuário");
+            System.out.println("12. Atualizar Usuário");
+            Thread.sleep(300);
+            System.out.println("13. Buscar Usuário");
+            Thread.sleep(300);
+            System.out.println("14. Remover Usuário");
             Thread.sleep(300);
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
@@ -356,7 +366,32 @@ public class Program {
         }
     }
 
-    
+    private static void buscarMovimentacaoPorCategoria(){
+        System.out.println("Informe o ID da categoria para buscar a movimentação: ");
+        int idCat = in.nextInt();
+        in.nextLine();
+
+        try {
+
+            Categoria cat = categoriaService.buscarCategoriaPorId(idCat);
+
+            List<Movimentacao> list = movimentacaoService.buscarMovimentacaoPorCategoria(cat);
+
+            if (list.isEmpty()) {
+                System.out.println("Nenhuma movimentação para o usuário " + cat.getNome());
+            }
+            System.out.println("Movimentações do usuário " + cat.getNome() + ": ");
+            list.forEach(x -> System.out.println(x));
+        }
+        catch(CategoriaException e) {
+            throw new CategoriaException(e.getMessage());
+        }
+        catch(MovimentacaoException e) {
+            throw new MovimentacaoException(e.getMessage());
+        }
+    }
+
+
 
 
 
