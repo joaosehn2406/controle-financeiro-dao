@@ -1,7 +1,10 @@
 package services;
 
+import java.util.List;
+
 import dao.interfaces.CategoriaDao;
 import model.Categoria;
+import model.Usuario;
 import exceptions.CategoriaException;
 
 public class CategoriaService {
@@ -51,5 +54,23 @@ public class CategoriaService {
         return categoria;
     }
 
-    
+    public List<Categoria> findByUsuario(Usuario usuario) {
+        List<Categoria> list = categoriaDao.findByUsuario(usuario);
+
+        if (list == null) {
+            throw new CategoriaException("Não encontrada a categoria pelo usuário.");
+        }
+
+        return list;
+    }
+
+    public List<Categoria> findAll(){
+        List<Categoria> list = categoriaDao.findAll();
+
+        if (list == null) {
+            throw new CategoriaException("Nenhuma categoria cadastrada.");
+        }
+
+        return list;
+    }
 }

@@ -1,8 +1,6 @@
 package application;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -48,48 +46,54 @@ public class Program {
                     atualizarCategoria();
                     break;
                 case 3:
-                    buscarCategoriaPorId();
-                    break;
-                case 4:
                     removerCategoria();
                     break;
-                case 5:
-                    adicionarMovimentacao();
+                case 4:
+                    buscarCategoriaPorId();
+                    break;
+                case 5: 
+                    buscarCategoriaPorUsuario();
                     break;
                 case 6:
-                    atualizarMovimentacao();
+                    buscarAllCategoria();
                     break;
                 case 7:
-                    buscarMovimentacao();
+                    adicionarMovimentacao();
                     break;
                 case 8:
-                    buscarMovimentacaoPorUsuario();
+                    atualizarMovimentacao();
                     break;
                 case 9:
-                    buscarMovimentacaoPorCategoria();
+                    buscarMovimentacao();
                     break;
                 case 10:
-                    buscarMovimentacaoAll();
+                    buscarMovimentacaoPorUsuario();
                     break;
                 case 11:
-                    removerMovimentacao();
+                    buscarMovimentacaoPorCategoria();
                     break;
                 case 12:
-                    adicionarUsuario();
+                    buscarMovimentacaoAll();
                     break;
                 case 13:
-                    atualizarUsuario();;
+                    removerMovimentacao();
                     break;
                 case 14:
-                    buscarUsuarioPorId();
+                    adicionarUsuario();
                     break;
                 case 15:
-                    buscarUsuarioPorEmail();
+                    atualizarUsuario();;
                     break;
-                case 16: 
-                    buscarUsuarioAll();
+                case 16:
+                    buscarUsuarioPorId();
                     break;
                 case 17:
+                    buscarUsuarioPorEmail();
+                    break;
+                case 18: 
+                    buscarUsuarioAll();
+                    break;
+                case 19:
                     removerUsuario();
                     break;
                 case 0:
@@ -124,35 +128,39 @@ public class Program {
             Thread.sleep(300);
             System.out.println("2. Atualizar Categoria");
             Thread.sleep(300);
-            System.out.println("3. Buscar Categoria");
+            System.out.println("3. Remover Categoria");
             Thread.sleep(300);
-            System.out.println("4. Remover Categoria");
+            System.out.println("4. Buscar Categoria por Id");
             Thread.sleep(300);
-            System.out.println("5. Adicionar Movimentação");
+            System.out.println("5. Buscar Categoria por Usuário");
             Thread.sleep(300);
-            System.out.println("6. Atualizar Movimentação");
+            System.out.println("6. Buscar todas as Categorias");
             Thread.sleep(300);
-            System.out.println("7. Buscar Movimentação");
+            System.out.println("7. Remover Categoria");
             Thread.sleep(300);
-            System.out.println("8. Buscar Movimentação por usuário");
+            System.out.println("8. Atualizar Movimentação");
             Thread.sleep(300);
-            System.out.println("9. Buscar Movimentação por categoria");
+            System.out.println("9. Buscar Movimentação");
             Thread.sleep(300);
-            System.out.println("10. Buscar todas as Movimentação");
+            System.out.println("10. Buscar Movimentação por usuário");
             Thread.sleep(300);
-            System.out.println("11. Remover Movimentação");
+            System.out.println("11. Buscar Movimentação por categoria");
             Thread.sleep(300);
-            System.out.println("12. Adicionar Usuário");
+            System.out.println("12. Buscar todas as Movimentação");
             Thread.sleep(300);
-            System.out.println("13. Atualizar Usuário");
+            System.out.println("13. Remover Movimentação");
             Thread.sleep(300);
-            System.out.println("14. Buscar Usuário por Id");
+            System.out.println("14. Adicionar Usuário");
             Thread.sleep(300);
-            System.out.println("15. Buscar Usuário por Email");
+            System.out.println("15. Atualizar Usuário");
             Thread.sleep(300);
-            System.out.println("16. Buscar todos os Usuário");
+            System.out.println("16. Buscar Usuário por Id");
             Thread.sleep(300);
-            System.out.println("17. Remover Usuário");
+            System.out.println("17. Buscar Usuário por Email");
+            Thread.sleep(300);
+            System.out.println("18. Buscar todos os Usuário");
+            Thread.sleep(300);
+            System.out.println("19. Remover Usuário");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
         }
@@ -218,7 +226,50 @@ public class Program {
         }
     }
 
-    
+
+    private static void buscarCategoriaPorUsuario() {
+        System.out.print("Informe o ID do usuário para buscar a categoria: ");
+        int idUsuario = in.nextInt();
+
+
+
+        try {
+            Usuario usuario2 = usuarioService.findByUsuarioId(idUsuario);
+
+            List<Categoria> list = categoriaService.findByUsuario(usuario2);
+
+            if (list.isEmpty()) {
+                System.out.println("Não há categoria.");
+            }
+
+            list.forEach(x -> System.out.println(x));
+        }
+        catch(UsuarioException e) {
+            throw new UsuarioException(e.getMessage());
+        }
+    }
+
+
+    private static List<Categoria> buscarAllCategoria(){
+        List<Categoria> list = categoriaService.findAll();
+
+        try {
+            
+
+            if (!list.isEmpty()) {
+                list.forEach(x -> System.out.println(x));
+            }
+            else {
+                System.out.println("Nenhuma categoria encontrada");
+            }
+            
+        }
+        catch(CategoriaException e) {
+            throw new CategoriaException(e.getMessage());
+        }
+        return list;
+    }
+
 
     private static void removerCategoria() {
         System.out.print("Informe o ID da categoria a ser removida: ");

@@ -10,13 +10,8 @@ import model.Usuario;
 public class UsuarioService {
     
     private UsuarioDao usuarioDao;
-    private Usuario usuario;
 
     public UsuarioService() {
-    }
-
-    public UsuarioService(Usuario usuario) {
-        this.usuario = usuario;
     }
 
 
