@@ -15,6 +15,7 @@ import db.DB;
 import exceptions.DaoException;
 import model.Categoria;
 import model.Usuario;
+import validation.CategoriaRules;
 
 public class CategoriaDaoJdbc implements CategoriaDao {
 
@@ -71,12 +72,12 @@ public class CategoriaDaoJdbc implements CategoriaDao {
         StringBuilder sb = new StringBuilder("UPDATE categoria SET ");
         List<Object> list = new ArrayList<>();
 
-        if (cat.getNome() != null && !cat.getNome().isBlank()) {
+        if (CategoriaRules.validarCategoriaNome(cat)) {
             sb.append("nome = ?, ");
             list.add(cat.getNome());
         }
 
-        if (cat.getUsuario().getId() > 0) {
+        if (CategoriaRules.validarIdCategoria(cat)) {
             sb.append("id_usuario = ?, ");
             list.add(cat.getUsuario().getId());
         }
