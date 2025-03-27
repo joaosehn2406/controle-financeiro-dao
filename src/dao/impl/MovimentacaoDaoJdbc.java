@@ -18,10 +18,12 @@ import model.Categoria;
 import model.Movimentacao;
 import model.TipoMovimentacao;
 import model.Usuario;
+import validation.MovimentacaoRules;
 
 public class MovimentacaoDaoJdbc implements MovimentacaoDao {
 
     private Connection conn;
+    private MovimentacaoRules movimentacaoRules;
 
     
 
@@ -69,32 +71,32 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
         StringBuilder sb = new StringBuilder("UPDATE movimentacao SET ");
         List<Object> list = new ArrayList<>();
 
-        if (mov.getDescricao() != null && !mov.getDescricao().isBlank()) {
+        if (movimentacaoRules.descNotNull(mov)) {
             sb.append("descricao = ?, ");
             list.add(mov.getDescricao());
         }
 
-        if (mov.getData() != null) {
+        if (movimentacaoRules.dataNotNull(mov)) {
             sb.append("data_mov = ?, ");
             list.add(mov.getData());
         }
 
-        if (mov.getValor() > 0) {
+        if (movimentacaoRules.valorInvalido(mov)) {
             sb.append("valor = ?, ");
             list.add(mov.getValor());
         }
 
-        if (mov.getTipoMovimentacao() != null) {
+        if (movimentacaoRules.tipoMovimentacaoInvalida(mov)) {
             sb.append("tipo_mov = ?, ");
             list.add(mov.getTipoMovimentacao().toString());
         }
 
-        if (mov.getCategoria() != null && mov.getCategoria().getId() > 0) {
+        if (movimentacaoRules.validarCategoria(mov)) {
             sb.append("id_categoria = ?, ");
             list.add(mov.getCategoria().getId());
         }
 
-        if (mov.getUsuario() != null && mov.getUsuario().getId() > 0) {
+        if (movimentacaoRules.validarIdUsuarioCat(mov)) {
             sb.append("id_usuario = ?, ");
             list.add(mov.getUsuario().getId());
         }
@@ -138,12 +140,15 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
 
             if (rows > 0) {
                 System.out.println("Success! Movimentacao deleted.");
-            } else {
+            } 
+            else {
                 System.out.println("No Movimentacao found with the provided id.");
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             throw new DaoException("Error while deleting Movimentacao: " + e.getMessage());
-        } finally {
+        } 
+        finally {
             DB.closeStatement(ps);
         }
     }

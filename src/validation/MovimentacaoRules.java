@@ -4,7 +4,6 @@ import model.Movimentacao;
 
 public class MovimentacaoRules {
     
-    private Movimentacao mov;
 
     public boolean descNotNull(Movimentacao mov) {
         return (mov.getDescricao() != null && !mov.getDescricao().isBlank());
@@ -24,5 +23,9 @@ public class MovimentacaoRules {
 
     public boolean validarIdUsuarioCat(Movimentacao mov) {
         return mov.getUsuario() != null && mov.getUsuario().getId() > 0;
+    }
+
+    public boolean validarCategoria(Movimentacao mov) {
+        return mov.getCategoria() != null && mov.getCategoria().getId() > 0;
     }
 }
