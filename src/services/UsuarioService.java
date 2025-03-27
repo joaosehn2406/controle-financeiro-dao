@@ -54,14 +54,14 @@ public class UsuarioService {
         return u;
     }
 
-    public Usuario findByUsuarioEmail(String email) {
-        Usuario u = usuarioDao.findByEmail(email);
+    public List<Usuario> findByUsuarioEmail(String email) {
+        List<Usuario> list = usuarioDao.findByEmail(email);
 
-        if (u == null) {
+        if (list == null) {
             throw new UsuarioException("Não encontrado o usuário.");
         }
 
-        return u;
+        return list;
     }
 
     public List<Usuario> findAll(){

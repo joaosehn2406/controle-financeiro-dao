@@ -48,7 +48,7 @@ public class Program {
                     atualizarCategoria();
                     break;
                 case 3:
-                    buscarCategoria();
+                    buscarCategoriaPorId();
                     break;
                 case 4:
                     removerCategoria();
@@ -81,9 +81,15 @@ public class Program {
                     atualizarUsuario();;
                     break;
                 case 14:
-                    buscarUsuario();
+                    buscarUsuarioPorId();
                     break;
                 case 15:
+                    buscarUsuarioPorEmail();
+                    break;
+                case 16: 
+                    buscarUsuarioAll();
+                    break;
+                case 17:
                     removerUsuario();
                     break;
                 case 0:
@@ -140,10 +146,13 @@ public class Program {
             Thread.sleep(300);
             System.out.println("13. Atualizar Usuário");
             Thread.sleep(300);
-            System.out.println("14. Buscar Usuário");
+            System.out.println("14. Buscar Usuário por Id");
             Thread.sleep(300);
-            System.out.println("15. Remover Usuário");
+            System.out.println("15. Buscar Usuário por Email");
             Thread.sleep(300);
+            System.out.println("16. Buscar todos os Usuário");
+            Thread.sleep(300);
+            System.out.println("17. Remover Usuário");
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
         }
@@ -195,7 +204,7 @@ public class Program {
         }
     }
 
-    private static void buscarCategoria() {
+    private static void buscarCategoriaPorId() {
         System.out.print("Informe o ID da categoria a ser buscada: ");
         int idCategoria = in.nextInt();
         in.nextLine();
@@ -208,6 +217,8 @@ public class Program {
             System.out.println("Erro: " + e.getMessage());
         }
     }
+
+    
 
     private static void removerCategoria() {
         System.out.print("Informe o ID da categoria a ser removida: ");
@@ -401,14 +412,14 @@ public class Program {
     private static void buscarMovimentacaoAll(){
 
         try {
+            
             List<Movimentacao> list = movimentacaoService.buscarMovimentacaoAll();
 
-            if (list.isEmpty()) {
-                System.out.println("Nenhuma movimentação registrada");
+            if (!list.isEmpty()) {
+                System.out.println("Movimentações: ");
+                list.forEach(x -> System.out.println(x));
             }
-            
-            System.out.println("Movimentações: ");
-            list.forEach(x -> System.out.println(x));
+            System.out.println("Nenhuma movimentação registrada");
 
         }
         catch(MovimentacaoException e) {
@@ -433,8 +444,6 @@ public class Program {
             System.out.println("Erro: " + e.getMessage());
         }
     }
-
-
 
 
     private static void adicionarUsuario() {
@@ -481,7 +490,7 @@ public class Program {
         }
     }
 
-    private static void buscarUsuario() {
+    private static void buscarUsuarioPorId() {
         System.out.print("Informe o ID do usuário a ser buscado: ");
         int idUsuario = in.nextInt();
         in.nextLine();
@@ -497,13 +506,18 @@ public class Program {
 
 
     private static void buscarUsuarioPorEmail(){
-        System.out.println("Informe o Email do usuário a ser buscado: ");
+        System.out.print("Informe o Email do usuário a ser buscado: ");
         String emailUsu = in.nextLine();
-        in.nextLine();
+        
 
         try {
-            Usuario usuario = usuarioService.findByUsuarioEmail(emailUsu);
-            System.out.println("Usuário encontrado: " + usuario);
+            List<Usuario> list = usuarioService.findByUsuarioEmail(emailUsu);
+            
+            if (!list.isEmpty()) {
+                list.forEach(x -> System.out.println(x));
+            }
+            System.out.println("Nenhum usuário com o e-mail " + emailUsu + " encontrado");
+            
         }
         catch(UsuarioException e) {
             throw new UsuarioException(e.getMessage());
@@ -511,7 +525,21 @@ public class Program {
 
     }
 
+    private static void buscarUsuarioAll(){
 
+        try {
+            List<Usuario> list = usuarioService.findAll();
+
+            if (!list.isEmpty()) {
+                list.forEach(x -> System.out.println(x));
+            }
+            System.out.println("Nenhum usuário cadastrado!");
+        }
+        catch(UsuarioException e) {
+            throw new UsuarioException(e.getMessage());
+        }
+
+    }
 
     private static void removerUsuario() {
         System.out.print("Informe o ID do usuário a ser removido: ");
