@@ -162,7 +162,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
         try {
 
             st = conn.prepareStatement(
-                "SELECT movimentacao.*, categoria.nome as CategoriaNome, usuario.nome, usuario.email, usuario.senha, " +
+                "SELECT movimentacao.*, categoria.nome as nome, usuario.nome, usuario.email, usuario.senha, " +
                 "movimentacao.id_categoria, movimentacao.id_usuario " +  
                 "FROM movimentacao " +
                 "INNER JOIN categoria ON movimentacao.id_categoria = categoria.id_categoria " +
@@ -371,7 +371,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
     private Categoria instantiateCategoria(ResultSet rs, Usuario usuario) throws SQLException {
         Categoria categoria = new Categoria();
         categoria.setId(rs.getInt("id_categoria"));
-        categoria.setNome(rs.getString("CategoriaNome"));  
+        categoria.setNome(rs.getString("nome"));  
         categoria.setUsuario(usuario);
         return categoria;
     }

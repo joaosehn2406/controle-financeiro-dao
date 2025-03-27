@@ -68,7 +68,7 @@ public class MovimentacaoService {
         
     }
 
-    public List<Movimentacao> buscarMovimentaoAll(){
+    public List<Movimentacao> buscarMovimentacaoAll(){
         List<Movimentacao> mov = movimentacaoDao.findAll();
         if (mov == null) {
             throw new MovimentacaoException("Não há movimentações!");

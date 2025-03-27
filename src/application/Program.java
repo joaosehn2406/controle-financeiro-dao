@@ -1,5 +1,6 @@
 package application;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,18 +69,21 @@ public class Program {
                     buscarMovimentacaoPorCategoria();
                     break;
                 case 10:
-                    removerMovimentacao();
+                    buscarMovimentacaoAll();
                     break;
                 case 11:
-                    adicionarUsuario();
+                    removerMovimentacao();
                     break;
                 case 12:
-                    atualizarUsuario();;
+                    adicionarUsuario();
                     break;
                 case 13:
-                    buscarUsuario();
+                    atualizarUsuario();;
                     break;
                 case 14:
+                    buscarUsuario();
+                    break;
+                case 15:
                     removerUsuario();
                     break;
                 case 0:
@@ -128,15 +132,17 @@ public class Program {
             Thread.sleep(300);
             System.out.println("9. Buscar Movimentação por categoria");
             Thread.sleep(300);
-            System.out.println("10. Remover Movimentação");
+            System.out.println("10. Buscar todas as Movimentação");
             Thread.sleep(300);
-            System.out.println("11. Adicionar Usuário");
+            System.out.println("11. Remover Movimentação");
             Thread.sleep(300);
-            System.out.println("12. Atualizar Usuário");
+            System.out.println("12. Adicionar Usuário");
             Thread.sleep(300);
-            System.out.println("13. Buscar Usuário");
+            System.out.println("13. Atualizar Usuário");
             Thread.sleep(300);
-            System.out.println("14. Remover Usuário");
+            System.out.println("14. Buscar Usuário");
+            Thread.sleep(300);
+            System.out.println("15. Remover Usuário");
             Thread.sleep(300);
             System.out.println("0. Sair");
             System.out.print("Escolha uma opção: ");
@@ -341,7 +347,7 @@ public class Program {
     }
 
     private static void buscarMovimentacaoPorUsuario(){
-        System.out.println("Informe o ID do usuário para buscar a movimentação: ");
+        System.out.print("Informe o ID do usuário para buscar a movimentação: ");
         int idUsuario = in.nextInt();
         in.nextLine();
 
@@ -367,7 +373,7 @@ public class Program {
     }
 
     private static void buscarMovimentacaoPorCategoria(){
-        System.out.println("Informe o ID da categoria para buscar a movimentação: ");
+        System.out.print("Informe o ID da categoria para buscar a movimentação: ");
         int idCat = in.nextInt();
         in.nextLine();
 
@@ -392,7 +398,25 @@ public class Program {
     }
 
 
+    private static void buscarMovimentacaoAll(){
 
+        try {
+            List<Movimentacao> list = movimentacaoService.buscarMovimentacaoAll();
+
+            if (list.isEmpty()) {
+                System.out.println("Nenhuma movimentação registrada");
+            }
+            
+            System.out.println("Movimentações: ");
+            list.forEach(x -> System.out.println(x));
+
+        }
+        catch(MovimentacaoException e) {
+            throw new MovimentacaoException(e.getMessage());
+        }
+
+
+    }
 
 
 
@@ -467,9 +491,27 @@ public class Program {
             System.out.println("Usuário encontrado: " + usuario);
         } 
         catch (UsuarioException e) {
-            System.out.println("Erro: " + e.getMessage());
+            throw new UsuarioException(e.getMessage());
         }
     }
+
+
+    private static void buscarUsuarioPorEmail(){
+        System.out.println("Informe o Email do usuário a ser buscado: ");
+        String emailUsu = in.nextLine();
+        in.nextLine();
+
+        try {
+            Usuario usuario = usuarioService.findByUsuarioEmail(emailUsu);
+            System.out.println("Usuário encontrado: " + usuario);
+        }
+        catch(UsuarioException e) {
+            throw new UsuarioException(e.getMessage());
+        }
+
+    }
+
+
 
     private static void removerUsuario() {
         System.out.print("Informe o ID do usuário a ser removido: ");

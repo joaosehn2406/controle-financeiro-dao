@@ -9,6 +9,7 @@ import validation.UsuarioRules;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UsuarioDaoJdbc  implements UsuarioDao {
 
@@ -160,21 +161,23 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
     }
 
     @Override
-    public Usuario findByEmail(String email) {
+    public List<Usuario> findByEmail(String email) {
         String sql = "SELECT * FROM usuario WHERE email = ?";
         try (PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1, email);
             ResultSet rs = pst.executeQuery();
 
-            if (rs.next()) {
+            List<Usuario> list = new ArrayList<>();
+
+            while (rs.next()) {
                 Usuario usuario = new Usuario();
                 usuario.setId(rs.getInt("id_usuario"));
                 usuario.setNome(rs.getString("nome"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setSenhaHash(rs.getString("senha"));
-                return usuario;
+                list.add(usuario);
             }
-            return null;
+            return list;
         } 
         catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar usuário por email", e);
