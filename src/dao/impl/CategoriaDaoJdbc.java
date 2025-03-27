@@ -96,8 +96,11 @@ public class CategoriaDaoJdbc implements CategoriaDao {
             int rows = ps.executeUpdate();
 
             if (rows > 0) {
-                throw new DaoException("Sucess! Update done.");
+                System.out.println("Sucesso! Update realizado.");
+            } else {
+                throw new DaoException("Nenhuma linha foi afetada, erro no update.");
             }
+            
         } 
         catch (SQLException e) {
             throw new DaoException(e.getMessage());
