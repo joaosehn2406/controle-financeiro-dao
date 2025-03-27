@@ -1,8 +1,11 @@
 package services;
 
+import java.util.List;
+
 import dao.interfaces.MovimentacaoDao;
 import exceptions.MovimentacaoException;
 import model.Movimentacao;
+import model.Usuario;
 
 public class MovimentacaoService {
     
@@ -45,5 +48,13 @@ public class MovimentacaoService {
             throw new MovimentacaoException("Movimentação não encontrada.");
         }
         return movimentacao;
+    }
+
+    public List<Movimentacao> buscarMovimentacaoPorUsuario(Usuario u) {
+        List<Movimentacao> mov = movimentacaoDao.findByUsuario(u);
+        if (mov == null) {
+            throw new MovimentacaoException("Não há movimentação com esse usuário!");
+        }
+        return mov;
     }
 }

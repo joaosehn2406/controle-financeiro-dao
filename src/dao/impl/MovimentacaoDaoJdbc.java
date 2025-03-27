@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import validation.MovimentacaoRules;
 public class MovimentacaoDaoJdbc implements MovimentacaoDao {
 
     private Connection conn;
-    private MovimentacaoRules movimentacaoRules;
+    private MovimentacaoRules movimentacaoRules = new MovimentacaoRules();
 
     
 
@@ -45,7 +46,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
                     Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, mov.getDescricao());
-            ps.setDate(2, Date.valueOf(mov.getData()));
+            ps.setDate(2, Date.valueOf(LocalDate.now()));
             ps.setDouble(3, mov.getValor());
             ps.setString(4, mov.getTipoMovimentacao().toString());
             ps.setInt(5, mov.getCategoria().getId());
@@ -115,7 +116,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
             int rows = ps.executeUpdate();
 
             if (rows > 0) {
-                throw new DaoException("Success! Update done.");
+                System.out.println("Success! Update done.");
             }
         } catch (SQLException e) {
             throw new DaoException(e.getMessage());
@@ -161,12 +162,14 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
         try {
 
             st = conn.prepareStatement(
-                    "SELECT movimentacao.*, categoria.nome as CategoriaNome, usuario.nome as UsuarioNome, usuario.email, usuario.senha "
-                            +
-                            "FROM movimentacao " +
-                            "INNER JOIN categoria ON movimentacao.id_categoria = categoria.id_categoria " +
-                            "INNER JOIN usuario ON categoria.id_usuario = usuario.id_usuario " +
-                            "WHERE movimentacao.id_transacao = ?");
+                "SELECT movimentacao.*, categoria.nome as CategoriaNome, usuario.nome, usuario.email, usuario.senha, " +
+                "movimentacao.id_categoria, movimentacao.id_usuario " +  
+                "FROM movimentacao " +
+                "INNER JOIN categoria ON movimentacao.id_categoria = categoria.id_categoria " +
+                "INNER JOIN usuario ON categoria.id_usuario = usuario.id_usuario " +
+                "WHERE movimentacao.id_transacao = ?");
+
+
 
             st.setInt(1, id);
 
@@ -201,7 +204,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
 
         try {
             ps = conn.prepareStatement(
-                "SELECT movimentacao.*, categoria.*, usuario.nome as UsuarioNome, usuario.email, usuario.senha " +
+                "SELECT movimentacao.*, categoria.*, usuario.nome, usuario.email, usuario.senha " +
                 "FROM movimentacao " + 
                 "INNER JOIN categoria ON movimentacao.id_categoria = categoria.id_categoria " +
                 "INNER JOIN usuario ON categoria.id_usuario = usuario.id_usuario " +
@@ -241,7 +244,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
 
         try {
             ps = conn.prepareStatement(
-                "SELECT movimentacao.*, categoria.*, usuario.nome as UsuarioNome, usuario.email, usuario.senha " +
+                "SELECT movimentacao.*, categoria.*, usuario.nome, usuario.email, usuario.senha " +
                 "FROM movimentacao " + 
                 "INNER JOIN categoria ON movimentacao.id_categoria = categoria.id_categoria " +
                 "INNER JOIN usuario ON categoria.id_usuario = usuario.id_usuario " +
@@ -282,7 +285,7 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
         try {
 
             ps = conn.prepareStatement(
-                "SELECT movimentacao.*, categoria.*, usuario.nome as UsuarioNome, usuario.email, usuario.senha " +
+                "SELECT movimentacao.*, categoria.*, usuario.nome, usuario.email, usuario.senha " +
                 "FROM movimentacao " + 
                 "INNER JOIN categoria ON movimentacao.id_categoria = categoria.id_categoria " +
                 "INNER JOIN usuario ON categoria.id_usuario = usuario.id_usuario " +
@@ -359,20 +362,20 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
     private Usuario instantiateUsuario(ResultSet rs) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setId(rs.getInt("id_usuario"));
-        usuario.setNome(rs.getString("UsuarioNome"));
+        usuario.setNome(rs.getString("nome")); 
         usuario.setEmail(rs.getString("email"));
         usuario.setSenhaHash(rs.getString("senha"));
         return usuario;
     }
-
+    
     private Categoria instantiateCategoria(ResultSet rs, Usuario usuario) throws SQLException {
         Categoria categoria = new Categoria();
         categoria.setId(rs.getInt("id_categoria"));
-        categoria.setNome(rs.getString("nome"));
+        categoria.setNome(rs.getString("CategoriaNome"));  
         categoria.setUsuario(usuario);
         return categoria;
     }
-
+    
     private Movimentacao instantiateMovimentacao(ResultSet rs, Categoria cat) throws SQLException {
         Movimentacao mov = new Movimentacao();
         mov.setId_transacao(rs.getInt("id_transacao"));
@@ -381,7 +384,18 @@ public class MovimentacaoDaoJdbc implements MovimentacaoDao {
         mov.setValor(rs.getDouble("valor"));
         mov.setTipoMovimentacao(TipoMovimentacao.valueOf(rs.getString("tipo_mov")));
         mov.setCategoria(cat);
+        
+
+        mov.setUsuario(new Usuario(
+            rs.getInt("id_usuario"),  
+            rs.getString("nome"), 
+            rs.getString("email"),
+            rs.getString("senha")
+        ));
+        
         return mov;
     }
+    
+    
 
 }

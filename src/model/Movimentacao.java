@@ -150,13 +150,14 @@ public class Movimentacao implements Serializable {
         return true;
     }
 
+
+
     @Override
     public String toString() {
-        return "Transacao{id=" + id_transacao +
-                ", descricao='" + descricao + '\'' +
-                ", valor=" + valor +
-                ", data=" + data +
-                ", tipo=" + tipoMovimentacao +
-                '}';
+        return "Movimentacao [id_transacao=" + id_transacao + ", descricao=" + descricao + ", data=" + data + ", valor="
+                + valor + ", tipoMovimentacao=" + tipoMovimentacao + ", categoria=" + categoria + ", usuario=" + usuario
+                + "]";
     }
+
+    
 }

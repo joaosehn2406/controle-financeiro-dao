@@ -16,9 +16,6 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    
-
-
     public Usuario(int id_usuario) {
         this.id_usuario = id_usuario;
     }
