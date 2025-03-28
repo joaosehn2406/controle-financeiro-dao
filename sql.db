@@ -6,7 +6,7 @@ CREATE TABLE usuario (
 	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100),
     email VARCHAR(100),
-    senha VARCHAR(25));
+    senha VARCHAR(400));
 
 CREATE TABLE categoria (
 	id_categoria INT PRIMARY KEY AUTO_INCREMENT,
