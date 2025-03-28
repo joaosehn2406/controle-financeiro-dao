@@ -22,6 +22,8 @@ Este projeto tem como objetivo oferecer uma plataforma para controle financeiro,
 - **Movimentações Financeiras**: Criação e atualização de transações financeiras.
 - **Persistência de Dados em Banco de Dados**: Utiliza SQL para armazenamento de dados, com consultas dinâmicas baseadas em categorias e usuários.
 - **Validação de Dados**: As entradas dos usuários são validadas para garantir que todos os dados necessários sejam fornecidos corretamente.
+- **Criptografia de Senha Argon2**: Criação de uma criptografia ao inserir ou alterar um usuário, de modo a tornar mais seguro os dados.
+
 
 ## 💻 Tecnologias
 
@@ -29,6 +31,7 @@ Este projeto tem como objetivo oferecer uma plataforma para controle financeiro,
 - [JDBC](https://docs.oracle.com/javase/tutorial/jdbc/) – API para interação com o banco de dados.
 - [MySQL](https://www.mysql.com/) – Sistema de gerenciamento de banco de dados utilizado para armazenar os dados.
 - [PostgreSQL](https://www.postgresql.org/docs/) - Adaptável para qualquer Banco de Dados.
+- [Argon2](https://www.baeldung.com/java-argon2-hashing) - Criptografia para dados mais seguros
 
 ## ⚙️ Configuração do Ambiente
 
