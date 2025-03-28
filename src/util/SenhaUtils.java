@@ -16,4 +16,6 @@ public class SenhaUtils {
     public static boolean verificarSenha(String senha, String hash) {
         return argon2.verify(hash, senha);
     }
+
+    
 }

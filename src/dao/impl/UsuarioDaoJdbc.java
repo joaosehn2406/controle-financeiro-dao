@@ -4,6 +4,7 @@ import dao.interfaces.UsuarioDao;
 import db.DB;
 import exceptions.DaoException;
 import model.Usuario;
+import util.SenhaUtils;
 import validation.UsuarioRules;
 
 import java.sql.*;
@@ -38,7 +39,7 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
 
             ps.setString(1, u.getNome());
             ps.setString(2, u.getEmail());
-            ps.setString(3, u.getSenha());
+            ps.setString(3, SenhaUtils.gerarHash(u.getSenha()));
 
             int row = ps.executeUpdate();
 
@@ -76,7 +77,7 @@ public class UsuarioDaoJdbc  implements UsuarioDao {
 
         if (UsuarioRules.validarSenhaUsuario(u)) {
             sql.append("senha = ?, ");
-            valores.add(u.getSenha());
+            valores.add(SenhaUtils.gerarHash(u.getSenha()));
         }
 
         sql.setLength(sql.length() - 2);
