@@ -28,16 +28,16 @@ Este projeto tem como objetivo oferecer uma plataforma para controle financeiro,
 - [Java](https://docs.oracle.com/en/java/) – Linguagem de programação utilizada para o desenvolvimento do projeto.
 - [JDBC](https://docs.oracle.com/javase/tutorial/jdbc/) – API para interação com o banco de dados.
 - [MySQL](https://www.mysql.com/) – Sistema de gerenciamento de banco de dados utilizado para armazenar os dados.
-- [JavaFX](https://openjfx.io/) – Framework utilizado para a criação da interface gráfica (se necessário).
-- [SHA-256](https://en.wikipedia.org/wiki/SHA-2) – Algoritmo de criptografia utilizado (se necessário para senhas).
+- [PostgreSQL](https://www.postgresql.org/docs/) - Adaptável para qualquer Banco de Dados.
 
 ## ⚙️ Configuração do Ambiente
 
-Forneça instruções claras e detalhadas sobre como configurar o ambiente de desenvolvimento localmente. Isso pode incluir:
+Passo-a-passo para inicialização correta e pleno funcionamento do projeto
 
 1. **Pré-requisitos:**
    - [Java JDK](https://www.oracle.com/java/technologies/downloads/) instalado (recomenda-se a versão 11 ou superior).
-   - Banco de dados MySQL instalado e configurado.
+   - Banco de dados MySQL ou PostgreSQL instalado e configurado.
+   - Driver [JDBC MySQL ](https://dev.mysql.com/downloads/connector/j/)
    - Uma IDE de sua preferência, como [IntelliJ IDEA](https://www.jetbrains.com/idea/) ou [Eclipse](https://www.eclipse.org/).
 
 2. **Clonando o Repositório:**
@@ -76,10 +76,8 @@ Contribuições são sempre bem-vindas! Para colaborar com o projeto, siga estas
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a [MIT License](https://mit-license.org/). Consulte o arquivo LICENSE para obter mais informações sobre os termos de uso.
+Este projeto está licenciado sob a [MIT License](https://mit-license.org/). 
 
 Divirta-se explorando e contribuindo para o projeto! Se tiver dúvidas ou sugestões, abra uma issue ou entre em contato. 🚀
-
-
 
 Aproveite o projeto e fique à vontade para personalizar este README de acordo com as necessidades do seu repositório. Divirta-se codificando! 🎉😄
