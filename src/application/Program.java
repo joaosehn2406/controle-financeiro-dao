@@ -136,7 +136,7 @@ public class Program {
             Thread.sleep(300);
             System.out.println("6. Buscar todas as Categorias");
             Thread.sleep(300);
-            System.out.println("7. Remover Categoria");
+            System.out.println("7. Adicionar Movimentação");
             Thread.sleep(300);
             System.out.println("8. Atualizar Movimentação");
             Thread.sleep(300);
